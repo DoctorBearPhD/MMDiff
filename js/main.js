@@ -75,46 +75,54 @@ function makeTableBase() {
 
 function loadData() {
     /**
-     @param data The json form of the database.
-     @param data.objects[] The tables in the database.
-     @param data.objects[].name The table name.
-     @param data.objects[].columns[] The columns of the table.
-     @param data.objects[].columns[].name Name of the column.
-     @param data.objects[].rows[] The rows of the table.
+     @param data The json from the Python output.
+     @param data.stats Character stats (HP and STUN)
+     @param data.stats.HP
+     @param data.stats.STUN
+     @param data.moves[] The character's list of moves and their frame data.
      */
-    d3.json("js/sql-mmdiff-export.json", function (data){
-        console.log("type is " + data.type);
+    d3.json("js/jsons/"+HASHCHAR+"_moves.json", function (data) {
+        var stat_values = [];
+        var i = 0;
 
-        for (var i in data.objects) {
-            var tbl = data.objects[i];
+        data.stats = data["Stats"];
 
-            if (tbl.name === HASHCHAR)
-            {
-                console.log("table name: " + tbl.name);
-                //show the character's data
-
-                // select
-                d3.select("#header-row").selectAll("th")
-                    .data(tbl.columns).enter()
-                    .append("th")
-                    .text( function (columns) { return columns.name; } );
-                console.log(d3.select("#header-row"));
-
-                d3.select(".tbl-body").selectAll("tr").remove();
-
-                d3.select(".tbl-body").selectAll("tr")
-                    .data(tbl.rows).enter()
-                    .append("tr")
-                    .selectAll('td')
-                    .data(function (row, i) {
-                        //data(row[i]).enter().append("td");
-                        console.log("row: " + row + ", i: " + i);
-                        return (row)
-                    }).enter().append("td").text(function (d){return d;});
-
-                break;
-            }
+        while(i < data.stats.length)
+        {
+            stat_values.append(data.stats[i]);
+            i++;
         }
+
+        var char_HP = data.stats.HP;
+        var char_STUN = data.stats.STUN;
+
+        data.moves = data["Moves"];
+        var columns = d3.keys(data.moves[0]);
+
+        // add header row
+        d3.select("#header-row").selectAll("th")
+            .data(columns).enter()
+            .append("th")
+            .text(function(key){ return key; });
+        console.log(d3.select("#header-row"));
+
+        console.log(char_HP + ", " + char_STUN);
+
+        d3.select(".tbl-body").selectAll("tr").remove();
+
+        d3.select(".tbl-body").selectAll("tr")
+            .data(data.moves).enter()
+            .append("tr") // creates a row for each item in data.moves[]
+            .selectAll("td")
+            .data(function (row_datum) {
+                // handling one row (row_datum) ((of columns))
+                return (columns).map(function (col_datum) {
+                    // handling one column (col) ((in the row))
+                    return {colname: col_datum, value: row_datum[col_datum]};
+                });
+            }).enter()
+            .append("td")
+            .text(function (d) { return d.value; });
     });
 
 }

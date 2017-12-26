@@ -30,7 +30,7 @@ table, th, td {
 
 .table-rim {
     align-content: center;
-    margin: 10px auto;
+    margin: 5px auto 10px;
     border-radius: 10px;
     padding: 20px;
     background-color: #BC8CFF;
@@ -39,7 +39,7 @@ table, th, td {
     width: fit-content;
 }
 
-#CHARS {
+.div-container {
     background-color: #BC8CFF;
     border-radius: 10px;
     align-content: center;
@@ -47,6 +47,17 @@ table, th, td {
     padding: 1px 20px;
     width: -moz-fit-content;
     width: fit-content;
+}
+
+#CHARS {
+    background-color: ghostwhite;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Gets rid of weird extra whitespace when padding is added to the div... */
+#CHARS p {
+    margin: 0;
 }
 
 /*! HTML5 Boilerplate v6.0.1 | MIT License | https://html5boilerplate.com/ */

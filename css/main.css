@@ -17,10 +17,6 @@ html {
     text-shadow: none;
 }
 
-div {
-    margin: 8px;
-}
-
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -43,8 +39,8 @@ table, th, td {
     background-color: #BC8CFF;
     border-radius: 10px;
     align-content: center;
-    margin: 5px auto;
-    padding: 1px 20px;
+    margin: 10px auto;
+    padding: 10px;
     width: -moz-fit-content;
     width: fit-content;
 }
@@ -52,7 +48,7 @@ table, th, td {
 #CHARS {
     background-color: ghostwhite;
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
 }
 
 /* Gets rid of weird extra whitespace when padding is added to the div... */
